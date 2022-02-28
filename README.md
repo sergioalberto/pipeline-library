@@ -25,15 +25,39 @@ Demonstrates how to use a Shared Library in Jenkins pipelines. This repository d
 
 This will output the following from the build:
 
-```
-[Pipeline] stage
-[Pipeline] { (Demo)
-[Pipeline] echo
-Hello world
-[Pipeline] echo
-Hello, Dave.
-[Pipeline] }
-[Pipeline] // stage
-[Pipeline] End of Pipeline
-Finished: SUCCESS
-```
+   ```
+   [Pipeline] stage
+   [Pipeline] { (Demo)
+   [Pipeline] echo
+   Hello world
+   [Pipeline] echo
+   Hello, Dave.
+   [Pipeline] }
+   [Pipeline] // stage
+   [Pipeline] End of Pipeline
+   Finished: SUCCESS
+   ```
+
+3. If you want to test another version from another branch of the library, just add `@` and the `branch name`, for example:
+
+    ```
+    @Library('pipeline-library@another-branch')_
+    import com.sergiogq.GlobalVars
+
+    stage('Demo') {
+      echo 'Hello World'
+      sayHello 'Dave'
+      println GlobalVars.foo
+    }
+    ```
+
+   ```
+   @Library('my-shared-library@master') _
+   /* Using a version specifier, such as branch, tag, etc */
+   @Library('my-shared-library@1.0') _
+   /* Accessing multiple libraries with one statement */
+   @Library(['my-shared-library', 'otherlib@abc1234']) _
+   ```
+
+### Resources
+- https://www.jenkins.io/doc/book/pipeline/shared-libraries/#legacy-scm
